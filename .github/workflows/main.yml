@@ -1,0 +1,20 @@
+name: Run Google Colab notebook
+
+on:
+  schedule:
+    # 매 2일마다 실행
+    - cron: "0 0 */2 * *"  # 2일마다 자정(UTC) 실행
+
+jobs:
+  run-colab:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Run Colab notebook
+      run: |
+        wget --no-check-certificate 'https://colab.research.google.com/drive/1gHCPPBsp7mQldj94tKY5oIYGMwp_rwru' -O notebook.ipynb
+        pip install nbconvert
+        jupyter nbconvert --to notebook --execute notebook.ipynb
